@@ -1,3 +1,0 @@
-# Title
-
-![image](someimage.png)

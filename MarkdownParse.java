@@ -4,7 +4,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-import javax.sound.sampled.SourceDataLine;
 
 public class MarkdownParse {
     public static ArrayList<String> getLinks(String markdown) {
@@ -12,28 +11,37 @@ public class MarkdownParse {
         // find the next [, then find the ], then find the (, then take up to
         // the next )
         int currentIndex = 0;
-        //boolean flag = false;
+
         while(currentIndex < markdown.length()) {
+            // Flag to keep track of exclamation
+            boolean flag = false;
             int nextOpenBracket = markdown.indexOf("[", currentIndex);
-            /*if(markdown.charAt(nextOpenBracket - 1) == '!') {
-                flag = true;
-            }*/
+
+            // For test case 1 (bug with text after paren)
             if(nextOpenBracket == -1) {
-               break;
+                break;
             }
+
             int nextCloseBracket = markdown.indexOf("]", nextOpenBracket);
             int openParen = markdown.indexOf("(", nextCloseBracket);
             int closeParen = markdown.indexOf(")", openParen);
+
+            // For test case 2 (bug for paren inside link)
             if(markdown.charAt(closeParen - 1) == '(') {
                 closeParen = markdown.indexOf(")", closeParen + 1);
             }
-            if(nextCloseBracket + 1 == openParen) {
+
+            // For test case 3 (bug with image instead of link)
+            if(nextOpenBracket > 0 && markdown.charAt(nextOpenBracket - 1) == '!') {
+                flag = true;
+            }
+
+            // For both test case 2 and 3
+            if(nextCloseBracket + 1 == openParen && !flag) {
                 toReturn.add(markdown.substring(openParen + 1, closeParen));
             }
+
             currentIndex = closeParen + 1;
-            //System.out.println(openParen);
-            //System.out.println(closeParen);
-            //System.out.println("currentIndex = " + currentIndex);
         }
         return toReturn;
     }
