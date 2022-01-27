@@ -27,10 +27,10 @@ public class MarkdownParse {
             int closeParen = markdown.indexOf(")", openParen);
 
             // For test-file3
-            if(closeParen == -1) {
+            if(closeParen <= 0) { //infinite loop when () is before brackets?
                 break;
             }
-            
+
             // For test case 2 (bug for paren inside link)
             if(markdown.charAt(closeParen - 1) == '(') {
                 closeParen = markdown.indexOf(")", closeParen + 1);
