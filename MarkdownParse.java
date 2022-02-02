@@ -23,6 +23,12 @@ public class MarkdownParse {
             }
 
             int nextCloseBracket = markdown.indexOf("]", nextOpenBracket);
+
+            //For testFile8 (no close bracket)
+            if(nextCloseBracket == -1) {
+                break;
+            }
+            
             int openParen = markdown.indexOf("(", nextCloseBracket);
             int closeParen = markdown.indexOf(")", openParen);
 
