@@ -37,9 +37,9 @@ public class MarkdownParse {
             }
 
             // For test case 3 (bug with image instead of link)
-            if(nextOpenBracket > 0 && markdown.charAt(nextOpenBracket - 1) == '!') {
-                flag = true;
-            }
+            // if(nextOpenBracket > 0 && markdown.charAt(nextOpenBracket - 1) == '!') {
+            //     flag = true;
+            // }
 
             // For both test case 2 and 3
             if(nextCloseBracket + 1 == openParen && !flag) {
